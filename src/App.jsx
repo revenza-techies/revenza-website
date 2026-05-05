@@ -92,7 +92,7 @@ const aboutHighlights = {
   'Experience-Led': 'We care about conversions, but never at the cost of shopper trust, clarity, or a smooth buying journey.',
 }
 
-const shellClass = 'min-h-screen bg-slate-50 text-slate-900'
+const shellClass = 'flex min-h-screen flex-col bg-slate-50 text-slate-900'
 const pageClass = 'mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8'
 
 function navClass(isActive) {
@@ -145,7 +145,7 @@ function Layout() {
           </div>
         </header>
 
-        <main id="main-content">
+        <main id="main-content" className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/apps" element={<Apps />} />
@@ -158,8 +158,8 @@ function Layout() {
         </main>
 
         <footer className="border-t border-slate-200 bg-white/70">
-          <div className={`${pageClass} flex flex-wrap items-center justify-between gap-3 py-5 text-sm text-slate-500`}>
-            <span>Revenza Techies</span>
+          <div className={`${pageClass} flex flex-col gap-3 py-5 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between`}>
+            <span className="font-medium">Revenza Techies</span>
             <a className="font-semibold text-sky-700 hover:text-sky-800" href="mailto:revenzatechies@gmail.com">
               revenzatechies@gmail.com
             </a>
@@ -554,4 +554,6 @@ function Field({ id, label, type = 'text', ...props }) {
 }
 
 export default Layout
+
+
 
