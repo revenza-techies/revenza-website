@@ -172,21 +172,19 @@ function Apps() {
       title="Applications and tools built to improve merchant workflows."
       copy="Discover Revenza applications designed to make upsell setup, product recommendations, and merchant operations simpler."
     >
-      <section className="card-grid three" aria-label="Application features">
+      <section className="card-grid apps-grid" aria-label="Application features">
         {appCards.map((card) => (
           <article className="feature-card app-card" key={card.title}>
-            <img className="app-card-logo" src={card.logo} alt={`${card.title} logo`} />
-            <div className="app-card-body">
-              <h2>
-                <a className="app-title-link" href={card.href} target="_blank" rel="noreferrer">
-                  {card.title}
-                </a>
-              </h2>
-              <p>{card.copy}</p>
-              <a className="btn install-btn" href={card.href} target="_blank" rel="noreferrer">
-                Install App
+            <h2>
+              <a className="app-title-link" href={card.href} target="_blank" rel="noreferrer">
+                {card.title}
               </a>
-            </div>
+            </h2>
+            <img className="app-card-logo" src={card.logo} alt={`${card.title} logo`} />
+            <p className="app-caption">{card.copy}</p>
+            <a className="btn install-btn" href={card.href} target="_blank" rel="noreferrer">
+              Install App
+            </a>
           </article>
         ))}
       </section>
@@ -434,6 +432,7 @@ function Field({ id, label, type = 'text', ...props }) {
 }
 
 export default Layout
+
 
 
 
