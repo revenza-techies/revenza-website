@@ -367,6 +367,50 @@ li {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
+.app-card {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.app-card-logo {
+  width: 118px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  padding: 10px;
+}
+
+.app-card-body {
+  display: grid;
+  gap: 10px;
+}
+
+.app-card-body h2 {
+  margin-bottom: 0;
+}
+
+.app-title-link {
+  color: var(--accent-strong);
+  text-decoration-color: rgba(10, 93, 146, 0.3);
+  text-underline-offset: 4px;
+}
+
+.app-title-link:hover,
+.app-title-link:focus-visible {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+.install-btn {
+  width: fit-content;
+  margin-top: 4px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #fff;
+}
 .split-page {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
@@ -665,4 +709,18 @@ button:focus-visible {
   .submit-btn {
     width: 100%;
   }
+
+  .app-card {
+    grid-template-columns: 1fr;
+  }
+
+  .app-card-logo {
+    width: 100%;
+    max-width: 180px;
+  }
+
+  .install-btn {
+    width: 100%;
+  }
 }
+

@@ -2,6 +2,7 @@
 import './App.css'
 
 const logoUrl = import.meta.env.BASE_URL + 'upsell-logo.png'
+const appLogoUrl = import.meta.env.BASE_URL + 'revenza-upsell-logo.png'
 
 const navItems = [
   { to: '/', label: 'Home', end: true },
@@ -17,16 +18,9 @@ const appCards = [
   {
     title: 'Revenza Upsell',
     copy: 'Boost average order value with smart product recommendations that feel helpful, not pushy.',
-  href: "https://apps.shopify.com/revenza-upsell"
+    href: 'https://apps.shopify.com/revenza-upsell',
+    logo: appLogoUrl,
   },
-  // {
-  //   title: 'Merchant workflows',
-  //   copy: 'Keep setup, editing, and day-to-day management clean for busy store teams.',
-  // },
-  // {
-  //   title: 'Growth insights',
-  //   copy: 'Use clear signals to decide which product recommendations deserve attention.',
-  // },
 ]
 
 const pricePlans = [
@@ -180,17 +174,21 @@ function Apps() {
     >
       <section className="card-grid three" aria-label="Application features">
         {appCards.map((card) => (
-  <a
-    className="feature-card link-card"
-    href={card.href}
-    target="_blank"
-    rel="noreferrer"
-    key={card.title}
-  >
-    <h2>{card.title}</h2>
-    <p>{card.copy}</p>
-  </a>
-))}
+          <article className="feature-card app-card" key={card.title}>
+            <img className="app-card-logo" src={card.logo} alt={`${card.title} logo`} />
+            <div className="app-card-body">
+              <h2>
+                <a className="app-title-link" href={card.href} target="_blank" rel="noreferrer">
+                  {card.title}
+                </a>
+              </h2>
+              <p>{card.copy}</p>
+              <a className="btn install-btn" href={card.href} target="_blank" rel="noreferrer">
+                Install App
+              </a>
+            </div>
+          </article>
+        ))}
       </section>
     </SimplePage>
   )
@@ -436,5 +434,6 @@ function Field({ id, label, type = 'text', ...props }) {
 }
 
 export default Layout
+
 
 
