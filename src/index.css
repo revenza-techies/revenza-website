@@ -1,4 +1,6 @@
-﻿:root {
+﻿@import "tailwindcss";
+
+:root {
   color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -6,6 +8,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
+  min-width: 320px;
+}
+
+#root {
+  min-height: 100svh;
 }
