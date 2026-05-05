@@ -15,17 +15,18 @@ const navItems = [
 
 const appCards = [
   {
-    title: 'Upsell blocks',
-    copy: 'Create focused add-on offers that sit naturally inside the buying journey.',
+    title: 'Revenza Upsell',
+    copy: 'Boost average order value with smart product recommendations that feel helpful, not pushy.',
+  href: "https://apps.shopify.com/revenza-upsell"
   },
-  {
-    title: 'Merchant workflows',
-    copy: 'Keep setup, editing, and day-to-day management clean for busy store teams.',
-  },
-  {
-    title: 'Growth insights',
-    copy: 'Use clear signals to decide which product recommendations deserve attention.',
-  },
+  // {
+  //   title: 'Merchant workflows',
+  //   copy: 'Keep setup, editing, and day-to-day management clean for busy store teams.',
+  // },
+  // {
+  //   title: 'Growth insights',
+  //   copy: 'Use clear signals to decide which product recommendations deserve attention.',
+  // },
 ]
 
 const pricePlans = [
@@ -179,11 +180,17 @@ function Apps() {
     >
       <section className="card-grid three" aria-label="Application features">
         {appCards.map((card) => (
-          <article className="feature-card" key={card.title}>
-            <h2>{card.title}</h2>
-            <p>{card.copy}</p>
-          </article>
-        ))}
+  <a
+    className="feature-card link-card"
+    href={card.href}
+    target="_blank"
+    rel="noreferrer"
+    key={card.title}
+  >
+    <h2>{card.title}</h2>
+    <p>{card.copy}</p>
+  </a>
+))}
       </section>
     </SimplePage>
   )
