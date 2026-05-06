@@ -1,88 +1,73 @@
-import { HashRouter, NavLink, Route, Routes } from 'react-router-dom'
+﻿import { motion } from 'framer-motion'
+import {
+  ArrowRight,
+  BarChart3,
+  Check,
+  Menu,
+  ShoppingCart,
+  Sparkles,
+  TrendingUp,
+  X,
+  Zap,
+} from 'lucide-react'
+import { useState } from 'react'
+import upsellLogo from './assets/revenza-upsell-logo.png'
 
-const logoUrl = import.meta.env.BASE_URL + 'upsell-logo.png'
-const appLogoUrl = import.meta.env.BASE_URL + 'revenza-upsell-logo.png'
-
-const navItems = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/apps', label: 'Apps' },
-  { to: '/knowledgebase', label: 'Knowledgebase' },
-  { to: '/pricing', label: 'Pricing' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
-  { to: '/privacy', label: 'Privacy Policy' },
+const features = [
+  {
+    icon: TrendingUp,
+    title: 'Increase AOV',
+    description:
+      'Boost average order value with smart product recommendations and conversion-focused upsells.',
+  },
+  {
+    icon: ShoppingCart,
+    title: 'Cart Upsells',
+    description:
+      'Display contextual offers directly inside the customer purchase journey.',
+  },
+  {
+    icon: Zap,
+    title: 'Fast Integration',
+    description:
+      'Install and launch within minutes directly on your Shopify store.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Analytics',
+    description:
+      'Track conversions, revenue, and customer engagement with detailed insights.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Modern UX',
+    description:
+      'Designed with performance, responsiveness, and user experience in mind.',
+  },
+  {
+    icon: Check,
+    title: 'Mobile Optimized',
+    description:
+      'Fully responsive experience across desktop, tablet, and mobile devices.',
+  },
 ]
 
-const appCards = [
+const stats = [
   {
-    title: 'Revenza Upsell',
-    copy: 'Boost average order value with smart product recommendations that feel helpful, not pushy.',
-    href: 'https://apps.shopify.com/revenza-upsell',
-    logo: appLogoUrl,
-  },
-]
-
-const pricePlans = [
-  {
-    name: 'Starter',
-    price: 'Custom',
-    copy: 'For early stores preparing their first upsell experience.',
-    features: ['Core setup support', 'Basic recommendation blocks', 'Email support'],
+    value: '35%',
+    label: 'Average AOV Growth',
   },
   {
-    name: 'Growth',
-    price: 'Custom',
-    copy: 'For merchants who want broader offer testing and stronger workflows.',
-    features: ['Advanced placement options', 'Priority support', 'Launch guidance'],
-    featured: true,
+    value: '500+',
+    label: 'Stores Supported',
   },
   {
-    name: 'Scale',
-    price: 'Custom',
-    copy: 'For teams that need more hands-on planning and implementation support.',
-    features: ['Dedicated planning', 'Custom workflow support', 'Performance review'],
-  },
-]
-
-const privacySections = [
-  {
-    id: 'information-we-collect',
-    title: '1. Information We Collect',
-    items: [
-      'Basic contact details such as name and email.',
-      'Usage data such as pages visited and feature interactions.',
-      'Technical data such as browser type and device information.',
-    ],
+    value: '99.9%',
+    label: 'Uptime',
   },
   {
-    id: 'how-we-use-information',
-    title: '2. How We Use Information',
-    items: [
-      'To operate and improve our services.',
-      'To respond to support requests.',
-      'To maintain security and prevent misuse.',
-    ],
-  },
-  {
-    id: 'data-sharing',
-    title: '3. Data Sharing',
-    copy: 'We do not sell personal information. We may share limited data when required by law or with trusted service providers that help us run our services.',
-  },
-  {
-    id: 'data-security',
-    title: '4. Data Security',
-    copy: 'We use reasonable administrative and technical safeguards to protect your information from unauthorized access, disclosure, and misuse.',
-  },
-  {
-    id: 'your-rights',
-    title: '5. Your Rights',
-    copy: 'You may request access, correction, or deletion of your personal data by contacting us.',
-  },
-  {
-    id: 'contact',
-    title: '6. Contact',
-    copy: 'If you have privacy-related questions, contact us at:',
-    chip: 'revenzatechies@gmail.com',
+    value: '24/7',
+    label: 'Support',
   },
 ]
 
@@ -92,25 +77,25 @@ const aboutHighlights = {
   'Experience-Led': 'We care about conversions, but never at the cost of shopper trust, clarity, or a smooth buying journey.',
 }
 
-const shellClass = 'flex min-h-screen flex-col bg-[#F5F7FB] text-slate-900'
+const shellClass = 'flex min-h-screen flex-col bg-slate-50 text-slate-900'
 const pageClass = 'mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8'
 
 function navClass(isActive) {
   return [
-    'rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] transition duration-200',
-    isActive ? 'bg-slate-950 text-white shadow-lg shadow-slate-900/10' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
+    'rounded-full px-3 py-2 text-sm font-semibold transition',
+    isActive ? 'bg-sky-100 text-sky-950' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
   ].join(' ')
 }
 
 function buttonClass(variant = 'primary') {
-  const base = 'inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold uppercase tracking-[0.12em] transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5F7FB]'
+  const base = 'inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2'
   return variant === 'primary'
-    ? `${base} bg-slate-950 text-white shadow-[0_10px_30px_rgba(15,23,42,0.12)] hover:bg-slate-800`
-    : `${base} border border-slate-200 bg-white text-slate-900 shadow-sm hover:bg-slate-50`
+    ? `${base} bg-sky-600 text-white hover:bg-sky-700`
+    : `${base} border border-slate-200 bg-white text-slate-900 hover:bg-slate-50`
 }
 
 function cardClass(extra = '') {
-  return `rounded-[28px] border border-slate-200 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.08)] ${extra}`
+  return `rounded-3xl border border-slate-200 bg-white/90 shadow-sm shadow-slate-200/60 ${extra}`
 }
 
 function Layout() {
@@ -124,7 +109,7 @@ function Layout() {
           Skip to content
         </a>
 
-        <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl">
+        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/105 backdrop-blur">
           <div className={`${pageClass} flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between`}>
             <NavLink className="inline-flex items-center gap-3 self-start text-lg font-extrabold tracking-tight text-slate-950" to="/" aria-label="Revenza home">
               <img className="h-10 w-10 rounded-2xl border border-slate-200 bg-white object-contain p-1.5" src={logoUrl} alt="" />
@@ -157,7 +142,7 @@ function Layout() {
           </Routes>
         </main>
 
-        <footer className="border-t border-slate-200 bg-white/85">
+        <footer className="border-t border-slate-200 bg-white/70">
           <div className={`${pageClass} flex flex-col gap-3 py-5 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between`}>
             <span className="font-medium">Revenza Techies</span>
             <a className="font-semibold text-sky-700 hover:text-sky-800" href="mailto:revenzatechies@gmail.com">
@@ -173,7 +158,7 @@ function Layout() {
 function Home() {
   return (
     <div className={pageClass}>
-      <section className={`${cardClass('overflow-hidden bg-gradient-to-br from-white via-slate-50 to-sky-50')} grid gap-6 p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:p-10`} aria-labelledby="home-title">
+      <section className={`${cardClass('overflow-hidden')} grid gap-6 p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:p-10`} aria-labelledby="home-title">
         <div>
           <span className="mb-4 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-sky-800">
             Shopify upsell tools
@@ -191,260 +176,358 @@ function Home() {
           </div>
         </div>
 
-        <div className="flex min-h-[320px] flex-col justify-center gap-5 rounded-[2rem] border border-slate-200 bg-slate-50 p-6 shadow-inner shadow-slate-200/60">
-          <img className="h-24 w-24 rounded-[1.5rem] border border-slate-200 bg-white object-contain p-2" src={logoUrl} alt="Revenza Upsell logo" />
           <div>
-            <strong className="block text-lg font-bold text-slate-950">Relevance first</strong>
-            <p className="mt-2 text-sm leading-7 text-slate-600">
-              Smart timing, clean offers, and merchant-friendly workflows.
+            <h1 className="text-lg font-semibold text-white">
+              Revenza Techies
+            </h1>
+
+            <p className="text-xs text-zinc-400">
+              Build. Optimize. Convert. Repeat.
             </p>
           </div>
         </div>
-      </section>
 
-      <section className="mt-6 grid gap-4 md:grid-cols-3" aria-label="Website sections">
-        {[
-          ['Apps', 'Discover tools built to improve merchant workflows.', '/apps'],
-          ['Knowledgebase', 'Find setup guides, usage details, and troubleshooting resources.', '/knowledgebase'],
-          ['Privacy', 'Review how Revenza collects, uses, and protects information.', '/privacy'],
-        ].map(([title, copy, to]) => (
-          <NavLink className={`${cardClass('p-6 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/70')}`} to={to} key={title}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-950">{title}</h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600">{copy}</p>
-          </NavLink>
-        ))}
-      </section>
-    </div>
-  )
-}
+        <nav className="hidden items-center gap-10 md:flex">
+          {['Features', 'Apps', 'Pricing', 'Contact'].map((item) => (
+            <a
+              key={item}
+              href="/"
+              className="text-sm font-medium uppercase tracking-widest text-zinc-300 transition hover:text-white"
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
 
-function Apps() {
-  return (
-    <SimplePage
-      pageId="apps"
-      eyebrow="Apps"
-      title="Applications and tools built to improve merchant workflows."
-      copy="Discover Revenza applications designed to make upsell setup, product recommendations, and merchant operations simpler."
-    >
-      <section className="mt-8 grid grid-cols-1 justify-center gap-6 sm:grid-cols-[repeat(auto-fit,minmax(19rem,19rem))]" aria-label="Application features">
-        {appCards.map((card) => (
-          <article className={`${cardClass('mx-auto flex w-full max-w-[19rem] flex-col items-center gap-4 p-6 text-center')}`} key={card.title}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-950">
-              <a className="text-sky-800 underline decoration-sky-300 underline-offset-4 transition hover:text-sky-700" href={card.href} target="_blank" rel="noreferrer">
-                {card.title}
+        <div className="hidden md:block">
+          <a
+            href="https://apps.shopify.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 px-6 py-3 text-sm font-semibold text-black transition hover:scale-105"
+          >
+            Install App
+            <ArrowRight size={16} />
+          </a>
+        </div>
+
+        <button
+          onClick={() => setOpen(!open)}
+          className="text-white md:hidden"
+        >
+          {open ? <X /> : <Menu />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="border-t border-white/10 bg-black px-6 py-6 md:hidden">
+          <div className="flex flex-col gap-6">
+            {['Features', 'Apps', 'Pricing', 'Contact'].map((item) => (
+              <a
+                key={item}
+                href="/"
+                className="text-sm uppercase tracking-widest text-zinc-300"
+              >
+                {item}
               </a>
-            </h2>
-            <img className="h-44 w-full rounded-2xl border border-slate-200 bg-white object-contain p-3 sm:h-48" src={card.logo} alt={`${card.title} logo`} />
-            <p className="text-sm leading-6 text-slate-500">{card.copy}</p>
-            <a className={buttonClass('primary')} href={card.href} target="_blank" rel="noreferrer">
+            ))}
+
+            <a
+              href="https://apps.shopify.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 px-6 py-3 text-sm font-semibold text-black"
+            >
               Install App
             </a>
-          </article>
-        ))}
-      </section>
-    </SimplePage>
-  )
-}
-
-function Knowledgebase() {
-  return (
-    <div className={pageClass}>
-      <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside className={`${cardClass('sticky top-24 self-start p-5')}`} aria-label="Knowledgebase menu">
-          <span className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-600">
-            KB Menu
-          </span>
-          <div className="grid gap-2 text-sm font-semibold text-slate-700">
-            <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href="#overview">Overview</a>
-            <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href="#install">Installation</a>
           </div>
-        </aside>
-
-        <div className="grid gap-5">
-          <section className={`${cardClass('p-6 sm:p-8')}`} aria-labelledby="kb-title">
-            <span className="mb-4 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-sky-800">
-              Knowledgebase
-            </span>
-            <h1 id="kb-title" className="max-w-3xl text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-              Setup guides, usage details, and troubleshooting resources.
-            </h1>
-            <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-              Find practical Revenza product guidance in one responsive documentation structure.
-            </p>
-          </section>
-
-          <article id="overview" className={`${cardClass('p-6 sm:p-8')}`}>
-            <h2 className="text-2xl font-bold tracking-tight text-slate-950">Overview</h2>
-            <p className="mt-3 leading-8 text-slate-600">Find setup guides, usage details, and troubleshooting resources for Revenza products.</p>
-          </article>
-
-          <article id="install" className={`${cardClass('p-6 sm:p-8')}`}>
-            <h2 className="text-2xl font-bold tracking-tight text-slate-950">Installation</h2>
-            <p className="mt-3 leading-8 text-slate-600">Step-by-step installation content can be added here for your app and integrations.</p>
-          </article>
         </div>
-      </div>
-    </div>
+      )}
+    </header>
   )
 }
 
-function Pricing() {
+function HeroSection() {
   return (
-    <SimplePage
-      pageId="pricing"
-      eyebrow="Pricing"
-      title="Simple and transparent pricing for every stage of growth."
-      copy="Add plan comparison, monthly or annual options, and feature limits for each tier as the product packaging becomes final."
-    >
-      <section className="mt-8 grid gap-5 md:grid-cols-3" aria-label="Pricing plans">
-        {pricePlans.map((plan) => (
-          <article
-            className={`${cardClass(plan.featured ? 'border-sky-200 bg-sky-50/60 p-6' : 'p-6')}`}
-            key={plan.name}
-          >
-            <span className="text-sm font-bold uppercase tracking-[0.08em] text-sky-800">{plan.name}</span>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950">{plan.price}</h2>
-            <p className="mt-3 leading-7 text-slate-600">{plan.copy}</p>
-            <ul className="mt-5 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-600">
-              {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
-            </ul>
-          </article>
-        ))}
-      </section>
-    </SimplePage>
-  )
-}
+    <section className="relative overflow-hidden">
+      <div className="absolute left-0 top-0 h-[400px] w-[400px] rounded-full bg-cyan-500/20 blur-3xl" />
 
-function About() {
-  return (
-    <div className={pageClass}>
-      <section className={`${cardClass('overflow-hidden border-slate-200/80 bg-gradient-to-br from-slate-950 via-sky-800 to-cyan-600 p-6 text-white lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(280px,0.8fr)] lg:gap-8 lg:p-10')}`} aria-labelledby="about-title">
+      <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-purple-600/20 blur-3xl" />
+
+      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-20 px-6 py-20 lg:grid-cols-2">
         <div>
-          <span className="mb-4 inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-white">
-            About Revenza
-          </span>
-          <h1 id="about-title" className="max-w-3xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
-            We build upsell tools that help merchants grow without making stores feel salesy.
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
-            Revenza exists to make product recommendations feel smarter, cleaner, and more useful.
-            We help merchants increase conversions and revenue while keeping the customer journey smooth and trustworthy.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a className={buttonClass('secondary')} href="#story">Read our story</a>
-            <a className={buttonClass('secondary')} href="#values">Explore our values</a>
-          </div>
-        </div>
+          <FadeUp>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-300">
+              <Sparkles size={16} />
+              Shopify SaaS Platform
+            </div>
+          </FadeUp>
 
-        <div className="mt-6 grid gap-4 lg:mt-0">
-          {['Merchant-First', 'Precision Upsell', 'Experience-Led'].map((title) => (
-            <article key={title} className="rounded-2xl border border-white/15 bg-white/10 p-5 backdrop-blur">
-              <h2 className="text-xl font-bold text-white">{title}</h2>
-              <p className="mt-2 text-sm leading-7 text-white/80">{aboutHighlights[title]}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+          <FadeUp delay={0.1}>
+            <h1 className="mb-8 text-5xl font-black leading-tight text-white md:text-7xl">
+              Increase Shopify Revenue With{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                Smarter Upsells
+              </span>
+            </h1>
+          </FadeUp>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside className={`${cardClass('sticky top-24 self-start p-5')}`} aria-label="About page sections">
-          <span className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-600">
-            Navigate
-          </span>
-          <div className="grid gap-2 text-sm font-semibold text-slate-700">
-            <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href="#mission">1. Our Mission</a>
-            <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href="#story">2. Revenza Story</a>
-            <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href="#values">3. Our Values</a>
-            <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href="#builders">4. The People Behind It</a>
-          </div>
-        </aside>
+          <FadeUp delay={0.2}>
+            <p className="mb-10 max-w-2xl text-lg leading-relaxed text-zinc-400">
+              Revenza Upsell helps Shopify stores boost conversions,
+              increase average order value, and create optimized customer
+              purchase journeys.
+            </p>
+          </FadeUp>
 
-        <div className="grid gap-5">
-          <article id="mission" className={`${cardClass('p-6 sm:p-8')}`}>
-            <span className="mb-4 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-sky-800">
-              Our Mission
-            </span>
-            <h2 className="text-3xl font-black tracking-tight text-slate-950">Helping merchants increase revenue with relevance, not randomness.</h2>
-            <p className="mt-4 leading-8 text-slate-600">At Revenza, we design upsell experiences that feel like a natural part of shopping. The goal is simple: help store owners surface the right add-on products at the right moment.</p>
-            <p className="mt-4 leading-8 text-slate-600">We believe the best commerce tools are the ones that improve results quietly by making decisions sharper, interfaces cleaner, and buying journeys smoother.</p>
-          </article>
+          <FadeUp delay={0.3}>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="https://apps.shopify.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 px-8 py-4 font-semibold text-black transition hover:scale-105"
+              >
+                Install App
+                <ArrowRight size={18} />
+              </a>
 
-          <article id="story" className={`${cardClass('p-6 sm:p-8')}`}>
-            <span className="mb-4 inline-flex rounded-full bg-cyan-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-cyan-900">
-              Revenza Story
-            </span>
-            <h2 className="text-3xl font-black tracking-tight text-slate-950">Every good product starts with a real merchant problem.</h2>
-            <p className="mt-4 leading-8 text-slate-600">Revenza was started by two friends, <strong>Bawa</strong> and <strong>Bhaiyaji</strong>, who met as colleagues and kept seeing the same thing: merchants often had growth opportunities, but the tools available to them were either too clunky, too generic, or too complicated.</p>
-            <p className="mt-4 leading-8 text-slate-600">Like most builders, we tried figuring things out separately first. There were experiments, setbacks, late nights, and the usual maybe later thinking.</p>
-            <div className="mt-5 rounded-2xl border border-sky-100 bg-sky-50 px-5 py-4 font-semibold leading-8 text-slate-700">Then came the spark: a casual conversation, a simple suggestion from Bawa's wife, and one of those nights where an idea suddenly feels too real to ignore.</div>
-            <p className="mt-4 leading-8 text-slate-600">That idea turned into Revenza, a brand built to help Shopify merchants grow in a way that feels premium, practical, and customer-friendly.</p>
-          </article>
+              <button className="rounded-full border border-white/10 bg-white/5 px-8 py-4 font-semibold text-white backdrop-blur-xl transition hover:bg-white/10">
+                Live Demo
+              </button>
+            </div>
+          </FadeUp>
 
-          <article id="values" className={`${cardClass('p-6 sm:p-8')}`}>
-            <span className="mb-4 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-emerald-900">
-              Our Values
-            </span>
-            <h2 className="text-3xl font-black tracking-tight text-slate-950">The principles that shape every feature we ship.</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {[
-                ['Useful over flashy', 'We prefer features merchants will use every day over features that only look good in demos.'],
-                ['Growth with trust', 'Upsells should increase order value without making the shopper feel tricked or overwhelmed.'],
-                ['Simple wins', 'Clear settings, focused workflows, and smart defaults beat unnecessary complexity every time.'],
-              ].map(([title, copy]) => (
-                <article className="rounded-2xl border border-slate-200 bg-slate-50 p-5" key={title}>
-                  <h3 className="text-lg font-bold text-slate-950">{title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{copy}</p>
-                </article>
+          <FadeUp delay={0.4}>
+            <div className="mt-12 flex flex-wrap gap-8">
+              {stats.map((item) => (
+                <div key={item.label}>
+                  <h3 className="text-3xl font-black text-white">
+                    {item.value}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-zinc-400">
+                    {item.label}
+                  </p>
+                </div>
               ))}
             </div>
-          </article>
-
-          <article id="builders" className="rounded-3xl bg-slate-950 p-6 text-white shadow-sm shadow-slate-300 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:p-8">
-            <div>
-              <span className="inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-white/80">
-                The People Behind Revenza
-              </span>
-              <h2 className="mt-4 text-3xl font-black tracking-tight text-white">Built by friends, shaped by real-world experience.</h2>
-              <p className="mt-4 leading-8 text-white/75">One builder focused on product and development. One focused on management and support. Together, that mix keeps Revenza practical on the inside and helpful on the outside.</p>
-            </div>
-            <div className="mt-6 grid gap-4 lg:mt-0">
-              <article className="rounded-2xl border border-white/10 bg-white/10 p-5">
-                <span className="text-xs font-bold uppercase tracking-[0.08em] text-white/55">Developer</span>
-                <h3 className="mt-2 text-2xl font-bold text-white">Bawa</h3>
-                <p className="mt-3 text-sm leading-7 text-white/75">Focused on building reliable product experiences and turning merchant needs into clean, usable tools.</p>
-              </article>
-              <article className="rounded-2xl border border-white/10 bg-white/10 p-5">
-                <span className="text-xs font-bold uppercase tracking-[0.08em] text-white/55">Management & Support</span>
-                <h3 className="mt-2 text-2xl font-bold text-white">Bhaiyaji</h3>
-                <p className="mt-3 text-sm leading-7 text-white/75">Focused on understanding merchants, solving problems fast, and making sure the experience feels human.</p>
-              </article>
-            </div>
-          </article>
+          </FadeUp>
         </div>
+
+        <FadeUp delay={0.5}>
+          <motion.div
+            animate={{ y: [0, -15, 0] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="relative"
+          >
+            <div className="absolute inset-0 rounded-[40px] bg-gradient-to-r from-cyan-400/20 to-purple-600/20 blur-3xl" />
+
+            <div className="relative rounded-[40px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+              <div className="mb-6 flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-semibold text-white">
+                    Revenza Dashboard
+                  </h3>
+
+                  <p className="text-sm text-zinc-400">
+                    Shopify Revenue Analytics
+                  </p>
+                </div>
+
+                <img
+                  src={upsellLogo}
+                  alt="Revenza Upsell"
+                  className="h-14 w-14 rounded-2xl"
+                />
+              </div>
+
+              <div className="grid gap-4">
+                <div className="rounded-3xl border border-white/10 bg-black/40 p-6">
+                  <p className="text-sm text-zinc-400">
+                    Revenue Generated
+                  </p>
+
+                  <h2 className="mt-2 text-4xl font-black text-white">
+                    $84,320
+                  </h2>
+
+                  <div className="mt-4 h-3 rounded-full bg-zinc-800">
+                    <div className="h-3 w-[78%] rounded-full bg-gradient-to-r from-cyan-400 to-purple-600" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="rounded-3xl border border-white/10 bg-black/40 p-5">
+                    <p className="text-sm text-zinc-400">Conversions</p>
+
+                    <h3 className="mt-2 text-2xl font-black text-white">
+                      +32%
+                    </h3>
+                  </div>
+
+                  <div className="rounded-3xl border border-white/10 bg-black/40 p-5">
+                    <p className="text-sm text-zinc-400">Orders</p>
+
+                    <h3 className="mt-2 text-2xl font-black text-white">
+                      12.4K
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </FadeUp>
       </div>
-    </div>
+    </section>
   )
 }
 
-function Contact() {
+function FeaturesSection() {
   return (
-    <div className={pageClass}>
-      <section className={`${cardClass('mb-5 flex flex-col gap-5 p-6 sm:flex-row sm:items-center lg:p-8')}`} aria-labelledby="contact-title">
-        <img className="h-20 w-20 rounded-2xl border border-slate-200 bg-white object-contain p-2" src={logoUrl} alt="Revenza Upsell logo" />
-        <div>
-          <h1 id="contact-title" className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">Contact Us</h1>
-          <p className="mt-3 leading-8 text-slate-600">We are here to support your growth with fast and friendly help.</p>
-          <strong className="mt-2 block text-sky-800">Reveza Techies</strong>
-        </div>
-      </section>
+    <section className="mx-auto max-w-7xl px-6 py-28">
+      <FadeUp>
+        <div className="mb-20 text-center">
+          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-cyan-400">
+            Features
+          </p>
 
-      <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]" aria-label="Contact options">
-        <article className={`${cardClass('p-6 sm:p-8')}`}>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-950">Let's Talk</h2>
-          <p className="mt-3 leading-8 text-slate-600">Have a question, product feedback, or a support request? Send us a message and our team will get back to you as soon as possible.</p>
-          <div className="mt-5 grid gap-3">
-            <span className="inline-flex rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-semibold text-slate-700">Email: revenzatechies@gmail.com</span>
-            <span className="inline-flex rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm font-semibold text-slate-700">Business Hours: Mon - Sat, 10:00 AM - 7:00 PM</span>
+          <h2 className="text-4xl font-black text-white md:text-6xl">
+            Built For Shopify Growth
+          </h2>
+        </div>
+      </FadeUp>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {features.map((feature, index) => {
+          const Icon = feature.icon
+
+          return (
+            <FadeUp key={feature.title} delay={index * 0.1}>
+              <div className="group rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-cyan-400/20 hover:bg-white/10 hover:shadow-[0_0_60px_rgba(168,85,247,0.25)]">
+                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-600">
+                  <Icon className="text-black" size={30} />
+                </div>
+
+                <h3 className="mb-4 text-2xl font-bold text-white">
+                  {feature.title}
+                </h3>
+
+                <p className="leading-relaxed text-zinc-400">
+                  {feature.description}
+                </p>
+              </div>
+            </FadeUp>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function AppsSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 py-28">
+      <FadeUp>
+        <div className="mb-20 text-center">
+          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-purple-400">
+            Apps
+          </p>
+
+          <h2 className="text-4xl font-black text-white md:text-6xl">
+            Premium Shopify Apps
+          </h2>
+        </div>
+      </FadeUp>
+
+      <div className="grid gap-8 lg:grid-cols-3">
+        {appCards.map((card, index) => (
+          <FadeUp key={card.title} delay={index * 0.1}>
+            <div className="rounded-[36px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_0_60px_rgba(168,85,247,0.35)]">
+              <div className="mb-8 flex items-center justify-between">
+                <img
+                  src={upsellLogo}
+                  alt={card.title}
+                  className="h-20 w-20 rounded-3xl"
+                />
+
+                <div className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-300">
+                  Live
+                </div>
+              </div>
+
+              <h3 className="mb-4 text-3xl font-black text-white">
+                {card.title}
+              </h3>
+
+              <p className="mb-8 leading-relaxed text-zinc-400">
+                {card.description}
+              </p>
+
+              <div className="mb-10 flex flex-col gap-4">
+                {card.features.map((feature) => (
+                  <div
+                    key={feature}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-400/20">
+                      <Check size={14} className="text-cyan-300" />
+                    </div>
+
+                    <span className="text-zinc-300">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href={card.link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-600 px-6 py-4 font-semibold text-black transition hover:scale-[1.02]"
+              >
+                Install App
+                <ArrowRight size={18} />
+              </a>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function CTASection() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 py-28">
+      <FadeUp>
+        <div className="relative overflow-hidden rounded-[48px] border border-white/10 bg-gradient-to-r from-cyan-500/10 to-purple-600/10 p-14 backdrop-blur-xl">
+          <div className="absolute left-0 top-0 h-[250px] w-[250px] rounded-full bg-cyan-500/20 blur-3xl" />
+
+          <div className="absolute bottom-0 right-0 h-[250px] w-[250px] rounded-full bg-purple-600/20 blur-3xl" />
+
+          <div className="relative text-center">
+            <h2 className="mx-auto mb-6 max-w-4xl text-4xl font-black text-white md:text-6xl">
+              Start Increasing Your Shopify Revenue Today
+            </h2>
+
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-zinc-400">
+              Launch conversion-focused upsells and create smarter
+              shopping experiences with Revenza Upsell.
+            </p>
+
+            <a
+              href="https://apps.shopify.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 px-8 py-4 font-semibold text-black transition hover:scale-105"
+            >
+              Install Revenza Upsell
+              <ArrowRight size={18} />
+            </a>
           </div>
         </article>
 
@@ -455,7 +538,7 @@ function Contact() {
             <input type="hidden" name="access_key" value="a0d704db-5d63-43a6-bb4d-91e948e1d8d2" />
             <Field id="name" label="Name" name="name" placeholder="Enter your full name" required />
             <Field id="email" label="Email" name="email" type="email" placeholder="Enter your email address" required />
-            <Field id="mobile" label="Mobile" name="mobile" type="tel" placeholder="Enter your mobile number" pattern="[0-9+\\-\\s()]{7,20}" required />
+            <Field id="mobile" label="Mobile" name="mobile" type="tel" placeholder="Enter your mobile number" pattern="[0-9+\-\s()]{7,20}" required />
             <div>
               <label className="mb-2 block text-sm font-bold text-slate-700" htmlFor="message">Add your message for us</label>
               <textarea className={inputClass('min-h-36 resize-y')} id="message" name="message" placeholder="Write your message here..." required />
@@ -468,89 +551,111 @@ function Contact() {
   )
 }
 
-function Privacy() {
+function Footer() {
   return (
-    <div className={pageClass}>
-      <section className={`${cardClass('mb-5 p-6 sm:p-8')}`} aria-labelledby="privacy-title">
-        <span className="mb-4 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-sky-800">
-          Privacy First
-        </span>
-        <h1 id="privacy-title" className="max-w-4xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
-          Privacy Policy
-        </h1>
-        <p className="mt-4 max-w-4xl leading-8 text-slate-600">
-          This policy explains what information Revenza collects, why we collect it, and how we keep it secure when you use our website and services.
-        </p>
-        <p className="mt-4 inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600">
-          <strong className="mr-2 text-slate-950">Last updated:</strong> April 14, 2026
-        </p>
-      </section>
+    <footer className="border-t border-white/10 bg-black">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-4">
+        <div>
+          <div className="mb-5 flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-600 text-xl font-black text-black">
+              R
+            </div>
 
-      <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside className={`${cardClass('sticky top-24 self-start p-5')}`} aria-label="Privacy quick links">
-          <span className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-slate-600">
-            Quick Links
-          </span>
-          <div className="grid gap-2 text-sm font-semibold text-slate-700">
-            {privacySections.map((section) => (
-              <a className="rounded-xl px-3 py-2 transition hover:bg-slate-100 hover:text-slate-950" href={`#${section.id}`} key={section.id}>
-                {section.title}
+            <div>
+              <h3 className="font-semibold text-white">
+                Revenza Techies
+              </h3>
+
+              <p className="text-xs text-zinc-500">
+                Build. Optimize. Convert. Repeat.
+              </p>
+            </div>
+          </div>
+
+          <p className="leading-relaxed text-zinc-400">
+            Premium Shopify SaaS solutions focused on revenue growth
+            and conversion optimization.
+          </p>
+        </div>
+
+        <div>
+          <h4 className="mb-5 text-lg font-semibold text-white">
+            Company
+          </h4>
+
+          <div className="flex flex-col gap-3">
+            {['About', 'Features', 'Pricing', 'Contact'].map((item) => (
+              <a
+                key={item}
+                href="/"
+                className="text-zinc-400 transition hover:text-white"
+              >
+                {item}
               </a>
             ))}
           </div>
-        </aside>
+        </div>
 
-        <article className="grid gap-4">
-          {privacySections.map((section) => (
-            <section className={`${cardClass('p-6 sm:p-8')}`} id={section.id} key={section.id}>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-950">{section.title}</h2>
-              {section.items ? (
-                <ul className="mt-4 list-disc space-y-2 pl-5 leading-8 text-slate-600">
-                  {section.items.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              ) : (
-                <p className="mt-4 leading-8 text-slate-600">{section.copy}</p>
-              )}
-              {section.chip && <p className="mt-4 inline-flex rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">{section.chip}</p>}
-            </section>
-          ))}
-        </article>
+        <div>
+          <h4 className="mb-5 text-lg font-semibold text-white">
+            Apps
+          </h4>
+
+          <div className="flex flex-col gap-3">
+            <a
+              href="/"
+              className="text-zinc-400 transition hover:text-white"
+            >
+              Revenza Upsell
+            </a>
+
+            <a
+              href="/"
+              className="text-zinc-400 transition hover:text-white"
+            >
+              Shopify Integrations
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="mb-5 text-lg font-semibold text-white">
+            Contact
+          </h4>
+
+          <div className="flex flex-col gap-3 text-zinc-400">
+            <p>support@revenza.tech</p>
+            <p>Shopify SaaS Solutions</p>
+            <p>India</p>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div className="border-t border-white/10 py-6 text-center text-sm text-zinc-500">
+        © 2026 Revenza Techies. All rights reserved.
+      </div>
+    </footer>
   )
 }
 
-function SimplePage({ pageId, eyebrow, title, copy, children }) {
+export default function App() {
   return (
-    <div className={pageClass}>
-      <section className={`${cardClass('p-6 sm:p-8')}`} aria-labelledby={`${pageId}-title`}>
-        <span className="mb-4 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-sky-800">
-          {eyebrow}
-        </span>
-        <h1 id={`${pageId}-title`} className="max-w-4xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
-          {title}
-        </h1>
-        <p className="mt-4 max-w-4xl leading-8 text-slate-600">{copy}</p>
-      </section>
-      {children}
-    </div>
-  )
-}
+    <div className="overflow-x-hidden bg-[#050505] text-white">
+      <Navbar />
 
-function inputClass(extra = '') {
-  return [
-    'w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 shadow-sm shadow-slate-100 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-200',
-    extra,
-  ].join(' ')
-}
+      <main>
+        <HeroSection />
+        <FeaturesSection />
+        <AppsSection />
+        <CTASection />
+      </main>
 
-function Field({ id, label, type = 'text', ...props }) {
-  return (
-    <div>
-      <label className="mb-2 block text-sm font-bold text-slate-700" htmlFor={id}>{label}</label>
-      <input className={inputClass()} id={id} type={type} {...props} />
+      <Footer />
     </div>
   )
 }
 
 export default Layout
+
+
+
