@@ -1,4 +1,4 @@
-﻿import { HashRouter, NavLink, Route, Routes } from 'react-router-dom'
+import { HashRouter, NavLink, Route, Routes } from 'react-router-dom'
 
 const logoUrl = import.meta.env.BASE_URL + 'upsell-logo.png'
 const appLogoUrl = import.meta.env.BASE_URL + 'revenza-upsell-logo.png'
@@ -92,25 +92,25 @@ const aboutHighlights = {
   'Experience-Led': 'We care about conversions, but never at the cost of shopper trust, clarity, or a smooth buying journey.',
 }
 
-const shellClass = 'flex min-h-screen flex-col bg-slate-50 text-slate-900'
+const shellClass = 'flex min-h-screen flex-col bg-[#F5F7FB] text-slate-900'
 const pageClass = 'mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8'
 
 function navClass(isActive) {
   return [
-    'rounded-full px-3 py-2 text-sm font-semibold transition',
-    isActive ? 'bg-sky-100 text-sky-950' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
+    'rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] transition duration-200',
+    isActive ? 'bg-slate-950 text-white shadow-lg shadow-slate-900/10' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950',
   ].join(' ')
 }
 
 function buttonClass(variant = 'primary') {
-  const base = 'inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2'
+  const base = 'inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold uppercase tracking-[0.12em] transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5F7FB]'
   return variant === 'primary'
-    ? `${base} bg-sky-600 text-white hover:bg-sky-700`
-    : `${base} border border-slate-200 bg-white text-slate-900 hover:bg-slate-50`
+    ? `${base} bg-slate-950 text-white shadow-[0_10px_30px_rgba(15,23,42,0.12)] hover:bg-slate-800`
+    : `${base} border border-slate-200 bg-white text-slate-900 shadow-sm hover:bg-slate-50`
 }
 
 function cardClass(extra = '') {
-  return `rounded-3xl border border-slate-200 bg-white/90 shadow-sm shadow-slate-200/60 ${extra}`
+  return `rounded-[28px] border border-slate-200 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.08)] ${extra}`
 }
 
 function Layout() {
@@ -124,7 +124,7 @@ function Layout() {
           Skip to content
         </a>
 
-        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/105 backdrop-blur">
+        <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl">
           <div className={`${pageClass} flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between`}>
             <NavLink className="inline-flex items-center gap-3 self-start text-lg font-extrabold tracking-tight text-slate-950" to="/" aria-label="Revenza home">
               <img className="h-10 w-10 rounded-2xl border border-slate-200 bg-white object-contain p-1.5" src={logoUrl} alt="" />
@@ -157,7 +157,7 @@ function Layout() {
           </Routes>
         </main>
 
-        <footer className="border-t border-slate-200 bg-white/70">
+        <footer className="border-t border-slate-200 bg-white/85">
           <div className={`${pageClass} flex flex-col gap-3 py-5 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between`}>
             <span className="font-medium">Revenza Techies</span>
             <a className="font-semibold text-sky-700 hover:text-sky-800" href="mailto:revenzatechies@gmail.com">
@@ -173,7 +173,7 @@ function Layout() {
 function Home() {
   return (
     <div className={pageClass}>
-      <section className={`${cardClass('overflow-hidden')} grid gap-6 p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:p-10`} aria-labelledby="home-title">
+      <section className={`${cardClass('overflow-hidden bg-gradient-to-br from-white via-slate-50 to-sky-50')} grid gap-6 p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:p-10`} aria-labelledby="home-title">
         <div>
           <span className="mb-4 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.08em] text-sky-800">
             Shopify upsell tools
@@ -455,7 +455,7 @@ function Contact() {
             <input type="hidden" name="access_key" value="a0d704db-5d63-43a6-bb4d-91e948e1d8d2" />
             <Field id="name" label="Name" name="name" placeholder="Enter your full name" required />
             <Field id="email" label="Email" name="email" type="email" placeholder="Enter your email address" required />
-            <Field id="mobile" label="Mobile" name="mobile" type="tel" placeholder="Enter your mobile number" pattern="[0-9+\-\s()]{7,20}" required />
+            <Field id="mobile" label="Mobile" name="mobile" type="tel" placeholder="Enter your mobile number" pattern="[0-9+\\-\\s()]{7,20}" required />
             <div>
               <label className="mb-2 block text-sm font-bold text-slate-700" htmlFor="message">Add your message for us</label>
               <textarea className={inputClass('min-h-36 resize-y')} id="message" name="message" placeholder="Write your message here..." required />
@@ -554,6 +554,3 @@ function Field({ id, label, type = 'text', ...props }) {
 }
 
 export default Layout
-
-
-
